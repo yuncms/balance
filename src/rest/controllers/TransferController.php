@@ -10,6 +10,7 @@ namespace yuncms\balance\rest\controllers;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\rest\IndexAction;
+use yuncms\balance\models\BalanceTransaction;
 use yuncms\rest\ActiveController;
 use yuncms\balance\rest\models\BalanceTransfer;
 
@@ -69,6 +70,7 @@ class TransferController extends ActiveController
      */
     public function actionCreate()
     {
-        return Yii::$app->balanceManager->transfer(10000000, 1, 1);
+        Yii::$app->balanceManager->increase(10000000, 1, BalanceTransaction::TYPE_RECHARGE,'充值');
+        return Yii::$app->balanceManager->transfer(10000000, 1, 10000);
     }
 }

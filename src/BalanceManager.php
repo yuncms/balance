@@ -33,34 +33,27 @@ class BalanceManager extends Component
      * @param integer|string $source 源ID
      * @return string
      * @throws Exception
+     * @throws NotFoundHttpException
      */
-    public function increase($userId, $amount, $action, $description, $source)
+    public function increase($userId, $amount, $action, $description = '', $source = null)
     {
+        $user = $this->fetchUserId($userId);
+        $balance = bcadd($user->balance, $amount);
+        if ($balance < 0) {//计算后如果余额小于0，那么结果不合法。
+            return false;
+        }
         $transaction = BalanceTransaction::getDb()->beginTransaction();//开始事务
         try {
-            $user = $this->fetchUserId($userId);
-
-            $balance = bcadd($user->balance, $amount);
-            if ($balance < 0) {//计算后如果余额小于0，那么结果不合法。
-                throw new InvalidArgumentException('Insufficient balance available.');
-            }
             /** @var BalanceTransaction $transactionModel */
-            $transactionModel = BalanceTransaction::create([
+            $transactionModel = new BalanceTransaction([
                 'user_id' => $userId, 'type' => $action, 'description' => $description,
-                'source' => $source, 'amount' => $amount, 'balance' => $balance]);
-            $balanceStatus = (bool)$user->updateAttributes(['balance' => $balance]);
-            if ($transactionModel && $balanceStatus) {
+                'source' => $source == null ? $userId : $source, 'amount' => $amount, 'balance' => $balance]);
+            if ($transactionModel->save() && (bool)$user->updateAttributes(['balance' => $balance])) {
                 $transaction->commit();
                 return $transactionModel->id;
             } else {
                 $transaction->rollBack();
             }
-        } catch (NotFoundHttpException $e) {
-            $transaction->rollBack();
-            Yii::error($e->getMessage(), __METHOD__);
-        } catch (InvalidArgumentException $e) {
-            $transaction->rollBack();
-            Yii::error($e->getMessage(), __METHOD__);
         } catch (\Exception $e) {
             $transaction->rollBack();
             Yii::error($e->getMessage(), __METHOD__);
@@ -80,8 +73,9 @@ class BalanceManager extends Component
      * @param integer|string $source 源ID
      * @return bool|string
      * @throws Exception
+     * @throws NotFoundHttpException
      */
-    public function decrease($userId, $amount, $action, $description = '', $source)
+    public function decrease($userId, $amount, $action, $description = '', $source = null)
     {
         return $this->increase($userId, -$amount, $action, $description, $source);
     }
@@ -94,6 +88,7 @@ class BalanceManager extends Component
      * @param string $description
      * @return \yuncms\db\ActiveRecord|bool
      * @throws Exception
+     * @throws NotFoundHttpException
      */
     public function transfer($fromUserId, $toUserId, $amount, $description = '')
     {
