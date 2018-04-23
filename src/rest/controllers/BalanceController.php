@@ -5,17 +5,17 @@
  * @license http://www.tintsoft.com/license/
  */
 
-namespace yuncms\transaction\rest\controllers;
+namespace yuncms\balance\rest\controllers;
 
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\ServerErrorHttpException;
 use yuncms\rest\Controller;
-use yuncms\transaction\rest\models\TransactionBalanceBonus;
-use yuncms\transaction\rest\models\TransactionBalanceTransaction;
-use yuncms\transaction\rest\models\TransactionBalanceTransfer;
-use yuncms\transaction\rest\models\TransactionSettleAccount;
-use yuncms\transaction\rest\models\TransactionWithdrawal;
+use yuncms\balance\rest\models\TransactionBalanceBonus;
+use yuncms\balance\rest\models\TransactionBalanceTransaction;
+use yuncms\balance\rest\models\TransactionBalanceTransfer;
+use yuncms\balance\rest\models\TransactionSettleAccount;
+use yuncms\balance\rest\models\TransactionWithdrawal;
 
 /**
  * 余额操作控制器

@@ -5,15 +5,15 @@
  * @license http://www.tintsoft.com/license/
  */
 
-namespace yuncms\balance\frontend;
+namespace yuncms\balance\rest\models;
 
 /**
- * Class Module
+ * 设置提现渠道
  *
  * @author Tongle Xu <xutongle@gmail.com>
  * @since 3.0
  */
-class Module extends \yuncms\balance\Module
+class SettleAccount extends \yuncms\balance\models\SettleAccount
 {
 
 }

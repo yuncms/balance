@@ -1,13 +1,13 @@
 <?php
 
-namespace yuncms\transaction\backend\controllers;
+namespace yuncms\balance\backend\controllers;
 
 use Yii;
 use yii\filters\VerbFilter;
 use yii\bootstrap\ActiveForm;
 use yii\web\NotFoundHttpException;
-use yuncms\transaction\models\TransactionWithdrawal;
-use yuncms\transaction\backend\models\TransactionWithdrawalSearch;
+use yuncms\balance\models\TransactionWithdrawal;
+use yuncms\balance\backend\models\TransactionWithdrawalSearch;
 use yuncms\web\Controller;
 use yuncms\web\Response;
 

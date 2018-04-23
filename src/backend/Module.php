@@ -5,7 +5,7 @@
  * @license http://www.tintsoft.com/license/
  */
 
-namespace yuncms\transaction\backend;
+namespace yuncms\balance\backend;
 
 /**
  * Class Module
@@ -13,7 +13,7 @@ namespace yuncms\transaction\backend;
  * @author Tongle Xu <xutongle@gmail.com>
  * @since 3.0
  */
-class Module extends \yuncms\transaction\Module
+class Module extends \yuncms\balance\Module
 {
 
 }
