@@ -10,7 +10,7 @@ use yuncms\admin\widgets\Alert;
 /* @var $model yuncms\balance\models\BalanceWithdrawal */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('yuncms/transaction', 'Manage Transaction Withdrawal'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('yuncms/balance', 'Manage Transaction Withdrawal'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -24,20 +24,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-sm-4 m-b-xs">
                     <?= Toolbar::widget(['items' => [
                         [
-                            'label' => Yii::t('yuncms/transaction', 'Manage Transaction Withdrawal'),
+                            'label' => Yii::t('yuncms/balance', 'Manage Transaction Withdrawal'),
                             'url' => ['index'],
                         ],
                         [
-                            'label' => Yii::t('yuncms/transaction', 'Create Transaction Withdrawal'),
+                            'label' => Yii::t('yuncms/balance', 'Create Transaction Withdrawal'),
                             'url' => ['create'],
                         ],
                         [
-                            'label' => Yii::t('yuncms/transaction', 'Update Transaction Withdrawal'),
+                            'label' => Yii::t('yuncms/balance', 'Update Transaction Withdrawal'),
                             'url' => ['update', 'id' => $model->id],
                             'options' => ['class' => 'btn btn-primary btn-sm']
                         ],
                         [
-                            'label' => Yii::t('yuncms/transaction', 'Delete Transaction Withdrawal'),
+                            'label' => Yii::t('yuncms/balance', 'Delete Transaction Withdrawal'),
                             'url' => ['delete', 'id' => $model->id],
                             'options' => [
                                 'class' => 'btn btn-danger btn-sm',
@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= DetailView::widget([
                 'model' => $model,
                 'attributes' => [
-                                'id',
+                    'id',
                     'user_id',
                     'status',
                     'amount',

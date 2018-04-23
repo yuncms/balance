@@ -6,7 +6,7 @@ use yuncms\db\Migration;
 /**
  * Class m180413_021409_add_backend_menu
  */
-class m180413_021409_add_backend_menu extends Migration
+class m180413_021416_add_backend_menu extends Migration
 {
     /*
      * @var string the table name.

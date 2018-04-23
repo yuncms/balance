@@ -5,7 +5,7 @@ use yuncms\db\Migration;
 /**
  * Class m180413_021427_init_rbac
  */
-class m180413_021427_init_rbac extends Migration
+class m180413_021447_init_rbac extends Migration
 {
 
 

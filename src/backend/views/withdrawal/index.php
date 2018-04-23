@@ -1,7 +1,6 @@
 <?php
 
 use yii\web\View;
-use yii\helpers\Url;
 use yuncms\helpers\Html;
 use yuncms\admin\widgets\Box;
 use yuncms\admin\widgets\Toolbar;
@@ -13,12 +12,12 @@ use yii\widgets\Pjax;
 /* @var $searchModel yuncms\balance\backend\models\BalanceWithdrawalSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('yuncms/transaction', 'Manage Transaction Withdrawal');
+$this->title = Yii::t('yuncms/balance', 'Manage Transaction Withdrawal');
 $this->params['breadcrumbs'][] = $this->title;
 $this->registerJs("jQuery(\"#batch_deletion\").on(\"click\", function () {
     yii.confirm('" . Yii::t('yuncms', 'Are you sure you want to delete this item?') . "',function(){
         var ids = jQuery('#gridview').yiiGridView(\"getSelectedRows\");
-        jQuery.post(\"/transaction-withdrawal/batch-delete\",{ids:ids});
+        jQuery.post(\"/balance/withdrawal/batch-delete\",{ids:ids});
     });
 });", View::POS_LOAD);
 ?>
@@ -35,12 +34,12 @@ $this->registerJs("jQuery(\"#batch_deletion\").on(\"click\", function () {
                 <div class="col-sm-4 m-b-xs">
                     <?= Toolbar::widget(['items' => [
                         [
-                            'label' => Yii::t('yuncms/transaction', 'Manage Transaction Withdrawal'),
+                            'label' => Yii::t('yuncms/balance', 'Manage Transaction Withdrawal'),
                             'url' => ['index'],
                         ],
                         [
                             'options' => ['id' => 'batch_deletion', 'class' => 'btn btn-sm btn-danger'],
-                            'label' => Yii::t('yuncms/transaction', 'Batch Deletion'),
+                            'label' => Yii::t('yuncms/balance', 'Batch Deletion'),
                             'url' => 'javascript:void(0);',
                         ]
                     ]]); ?>

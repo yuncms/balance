@@ -164,7 +164,7 @@ class BalanceWithdrawal extends ActiveRecord
             if (($transaction = BalanceTransaction::create([
                 'user_id' => $this->user_id,
                 'type' => BalanceTransaction::TYPE__WITHDRAWAL_FAILED,
-                'description' => Yii::t('yuncms/transaction', 'Withdrawal Failed'),
+                'description' => Yii::t('yuncms/balance', 'Withdrawal Failed'),
                 'source' => $this->id,
                 'amount' => $this->amount,
                 'balance' => $balance,
@@ -189,7 +189,7 @@ class BalanceWithdrawal extends ActiveRecord
             if (($transaction = BalanceTransaction::create([
                 'user_id' => $this->user_id,
                 'type' => BalanceTransaction::TYPE__WITHDRAWAL_REVOKED,
-                'description' => Yii::t('yuncms/transaction', 'Withdrawal Revoked'),
+                'description' => Yii::t('yuncms/balance', 'Withdrawal Revoked'),
                 'source' => $this->id,
                 'amount' => $this->amount,
                 'balance' => $balance,
@@ -216,7 +216,7 @@ class BalanceWithdrawal extends ActiveRecord
             if (($transaction = BalanceTransaction::create([
                 'user_id' => $this->user_id,
                 'type' => BalanceTransaction::TYPE_WITHDRAWAL,
-                'description' => Yii::t('yuncms/transaction', 'Withdrawal'),
+                'description' => Yii::t('yuncms/balance', 'Withdrawal'),
                 'source' => $this->id,
                 'amount' => $this->amount,
                 'balance' => $balance,

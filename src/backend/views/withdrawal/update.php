@@ -8,8 +8,8 @@ use yuncms\admin\widgets\Alert;
 /* @var $this yii\web\View */
 /* @var $model yuncms\balance\models\BalanceWithdrawal */
 
-$this->title = Yii::t('yuncms/transaction', 'Update Transaction Withdrawal') . ': ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('yuncms/transaction', 'Manage Transaction Withdrawal'), 'url' => ['index']];
+$this->title = Yii::t('yuncms/balance', 'Update Transaction Withdrawal') . ': ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('yuncms/balance', 'Manage Transaction Withdrawal'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('yuncms', 'Update');
 ?>
@@ -24,11 +24,11 @@ $this->params['breadcrumbs'][] = Yii::t('yuncms', 'Update');
                 <div class="col-sm-4 m-b-xs">
                     <?= Toolbar::widget(['items' => [
                         [
-                            'label' => Yii::t('yuncms/transaction', 'Manage Transaction Withdrawal'),
+                            'label' => Yii::t('yuncms/balance', 'Manage Transaction Withdrawal'),
                             'url' => ['index'],
                         ],
                         [
-                            'label' => Yii::t('yuncms/transaction', 'Create Transaction Withdrawal'),
+                            'label' => Yii::t('yuncms/balance', 'Create Transaction Withdrawal'),
                             'url' => ['create'],
                         ],
                     ]]); ?>
