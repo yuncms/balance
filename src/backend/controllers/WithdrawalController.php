@@ -6,8 +6,8 @@ use Yii;
 use yii\filters\VerbFilter;
 use yii\bootstrap\ActiveForm;
 use yii\web\NotFoundHttpException;
-use yuncms\balance\models\TransactionWithdrawal;
-use yuncms\balance\backend\models\TransactionWithdrawalSearch;
+use yuncms\balance\models\BalanceWithdrawal;
+use yuncms\balance\backend\models\BalanceWithdrawalSearch;
 use yuncms\web\Controller;
 use yuncms\web\Response;
 
@@ -38,7 +38,7 @@ class WithdrawalController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new TransactionWithdrawalSearch();
+        $searchModel = new BalanceWithdrawalSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -67,7 +67,7 @@ class WithdrawalController extends Controller
      */
     public function actionCreate()
     {
-        $model = new TransactionWithdrawal();
+        $model = new BalanceWithdrawal();
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($model);
@@ -147,12 +147,12 @@ class WithdrawalController extends Controller
      * Finds the TransactionWithdrawal model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return TransactionWithdrawal the loaded model
+     * @return BalanceWithdrawal the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = TransactionWithdrawal::findOne($id)) !== null) {
+        if (($model = BalanceWithdrawal::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException (Yii::t('yii', 'The requested page does not exist.'));

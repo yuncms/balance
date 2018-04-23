@@ -3,13 +3,13 @@
 namespace yuncms\balance\backend\models;
 
 use yii\data\ActiveDataProvider;
-use yuncms\balance\models\Withdrawal;
+use yuncms\balance\models\BalanceWithdrawal;
 use yii\base\Model;
 
 /**
- * TransactionWithdrawalSearch represents the model behind the search form about `yuncms\transaction\models\TransactionWithdrawal`.
+ * TransactionWithdrawalSearch represents the model behind the search form about `yuncms\balance\models\BalanceWithdrawal`.
  */
-class WithdrawalSearch extends Withdrawal
+class BalanceWithdrawalSearch extends BalanceWithdrawal
 {
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ class WithdrawalSearch extends Withdrawal
      */
     public function search($params)
     {
-        $query = TransactionWithdrawal::find();
+        $query = BalanceWithdrawal::find();
 
         // add conditions that should always apply here
 

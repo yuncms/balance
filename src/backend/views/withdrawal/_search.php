@@ -4,7 +4,7 @@ use yuncms\helpers\Html;
 use yuncms\admin\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model yuncms\transaction\backend\models\TransactionWithdrawalSearch */
+/* @var $model yuncms\balance\backend\models\BalanceWithdrawalSearch */
 /* @var $form ActiveForm */
 ?>
 

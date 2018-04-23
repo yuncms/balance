@@ -3,7 +3,7 @@ use yuncms\helpers\Html;
 use yuncms\admin\widgets\ActiveForm;
 
 /* @var \yii\web\View $this */
-/* @var yuncms\transaction\models\TransactionWithdrawal $model */
+/* @var yuncms\balance\models\BalanceWithdrawal $model */
 /* @var ActiveForm $form */
 ?>
 <?php $form = ActiveForm::begin(['layout'=>'horizontal', 'enableAjaxValidation' => true, 'enableClientValidation' => false,]); ?>

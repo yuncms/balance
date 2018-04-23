@@ -10,7 +10,7 @@ use yuncms\grid\GridView;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
-/* @var $searchModel yuncms\transaction\backend\models\TransactionWithdrawalSearch */
+/* @var $searchModel yuncms\balance\backend\models\BalanceWithdrawalSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('yuncms/transaction', 'Manage Transaction Withdrawal');

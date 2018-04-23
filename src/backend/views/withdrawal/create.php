@@ -6,7 +6,7 @@ use yuncms\admin\widgets\Toolbar;
 use yuncms\admin\widgets\Alert;
 
 /* @var $this yii\web\View */
-/* @var $model yuncms\transaction\models\TransactionWithdrawal */
+/* @var $model yuncms\balance\models\BalanceWithdrawal */
 
 $this->title = Yii::t('yuncms/transaction', 'Create Transaction Withdrawal');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('yuncms/transaction', 'Manage Transaction Withdrawal'), 'url' => ['index']];
