@@ -10,7 +10,6 @@ namespace yuncms\balance\models;
 use Yii;
 use yii\base\Exception;
 use yii\base\Model;
-use yii\web\NotFoundHttpException;
 use yuncms\user\models\User;
 
 /**
@@ -88,9 +87,10 @@ class Balance extends Model
 
     /**
      * 充值
+     * @param User $user
      * @return BalanceRecharge|\yuncms\db\ActiveRecord
      */
-    public static function recharge()
+    public static function recharge($user)
     {
         return BalanceRecharge::create([
 
@@ -99,9 +99,10 @@ class Balance extends Model
 
     /**
      * 余额结算
+     * @param User $user
      * @return BalanceSettlement|\yuncms\db\ActiveRecord
      */
-    public static function settlement()
+    public static function settlement($user)
     {
         return BalanceSettlement::create([]);
     }
