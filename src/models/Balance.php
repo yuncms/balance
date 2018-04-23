@@ -90,10 +90,15 @@ class Balance extends Model
      * @param User $user
      * @return BalanceRecharge|\yuncms\db\ActiveRecord
      */
-    public static function recharge($user)
+    public static function recharge($user, $amount)
     {
         return BalanceRecharge::create([
-
+            'user_id' => $user->id,
+            'amount' => $amount,
+            'user_fee' => $user_fee,
+            'balance_bonus' => balance_bonus,
+            'balance_transaction_id' => '',
+            'description' => '',
         ]);
     }
 

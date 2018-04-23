@@ -114,4 +114,18 @@ class BalanceRecharge extends ActiveRecord
     {
         return new BalanceRechargeQuery(get_called_class());
     }
+
+    /**
+     * @inheritdoc
+     * @throws \yii\db\Exception
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if ($insert
+            && ($transactionId = Balance::increase($this->user, $this->amount, BalanceTransaction::TYPE_RECHARGE, $this->description, $this->id)) != false) {
+            //保存后开始充值
+            $this->updateAttributes(['paid' => true, 'time_paid' => time(), 'balance_transaction_id' => $transactionId]);
+        }
+    }
 }
