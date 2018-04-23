@@ -11,11 +11,11 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\ServerErrorHttpException;
 use yuncms\rest\Controller;
-use yuncms\balance\rest\models\TransactionBalanceBonus;
-use yuncms\balance\rest\models\TransactionBalanceTransaction;
-use yuncms\balance\rest\models\TransactionBalanceTransfer;
-use yuncms\balance\rest\models\TransactionSettleAccount;
-use yuncms\balance\rest\models\TransactionWithdrawal;
+use yuncms\balance\rest\models\BalanceBonus;
+use yuncms\balance\rest\models\BalanceTransaction;
+use yuncms\balance\rest\models\BalanceTransfer;
+use yuncms\balance\rest\models\SettleAccount;
+use yuncms\balance\rest\models\Withdrawal;
 
 /**
  * 余额操作控制器
@@ -33,7 +33,7 @@ class BalanceController extends Controller
      */
     public function actionTransaction()
     {
-        $query = TransactionBalanceTransaction::find()->with('user');
+        $query = BalanceTransaction::find()->with('user');
         if (!empty($filter)) {
             $query->andWhere($filter);
         }
