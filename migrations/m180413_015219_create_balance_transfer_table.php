@@ -10,7 +10,7 @@ class m180413_015219_create_balance_transfer_table extends Migration
     /**
      * @var string The table name.
      */
-    public $tableName = '{{%transaction_balance_transfer}}';
+    public $tableName = '{{%balance_transfer}}';
 
     /**
      * {@inheritdoc}
