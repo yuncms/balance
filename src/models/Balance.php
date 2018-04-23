@@ -5,39 +5,34 @@
  * @license http://www.tintsoft.com/license/
  */
 
-namespace yuncms\balance;
+namespace yuncms\balance\models;
 
 use Yii;
-use yii\base\Component;
-use yii\base\InvalidArgumentException;
-use yii\db\Exception;
+use yii\base\Exception;
+use yii\base\Model;
 use yii\web\NotFoundHttpException;
-use yuncms\balance\models\BalanceTransaction;
-use yuncms\balance\models\BalanceTransfer;
 use yuncms\user\models\User;
 
 /**
- * Class BalanceManager
+ * 余额操作
  *
  * @author Tongle Xu <xutongle@gmail.com>
  * @since 3.0
  */
-class BalanceManager extends Component
+class Balance extends Model
 {
     /**
      * 给某账户 + 钱
-     * @param integer $userId 账户ID
+     * @param User $user 用户账户
      * @param float $amount 钱数
      * @param string $action 操作事由
      * @param string $description 操作描述
      * @param integer|string $source 源ID
      * @return string
-     * @throws Exception
-     * @throws NotFoundHttpException
+     * @throws \yii\db\Exception
      */
-    public function increase($userId, $amount, $action, $description = '', $source = null)
+    public static function increase($user, $amount, $action, $description = '', $source = null)
     {
-        $user = $this->fetchUserId($userId);
         $balance = bcadd($user->balance, $amount);
         if ($balance < 0) {//计算后如果余额小于0，那么结果不合法。
             return false;
@@ -46,8 +41,8 @@ class BalanceManager extends Component
         try {
             /** @var BalanceTransaction $transactionModel */
             $transactionModel = new BalanceTransaction([
-                'user_id' => $userId, 'type' => $action, 'description' => $description,
-                'source' => $source == null ? $userId : $source, 'amount' => $amount, 'balance' => $balance]);
+                'user_id' => $user->id, 'type' => $action, 'description' => $description,
+                'source' => $source == null ? $user->id : $source, 'amount' => $amount, 'balance' => $balance]);
             if ($transactionModel->save() && (bool)$user->updateAttributes(['balance' => $balance])) {
                 $transaction->commit();
                 return $transactionModel->id;
@@ -66,38 +61,69 @@ class BalanceManager extends Component
 
     /**
      * 给某账户 - 钱
-     * @param integer $userId 账户ID
+     * @param User $user 用户账户
      * @param float $amount 钱数
      * @param string $action 操作事由
      * @param string $description 操作描述
      * @param integer|string $source 源ID
      * @return bool|string
      * @throws Exception
-     * @throws NotFoundHttpException
      */
-    public function decrease($userId, $amount, $action, $description = '', $source = null)
+    public static function decrease($user, $amount, $action, $description = '', $source = null)
     {
-        return $this->increase($userId, -$amount, $action, $description, $source);
+        return static::increase($user, -$amount, $action, $description, $source);
+    }
+
+    /**
+     * 送钱
+     * @param User $user 用户账户
+     * @param float $amount
+     * @param string $description
+     * @return BalanceBonus|\yuncms\db\ActiveRecord
+     */
+    public static function bonus($user, $amount, $description)
+    {
+        return BalanceBonus::create(['user_id' => $user->id, 'amount' => $amount, 'description' => $description]);
+    }
+
+    /**
+     * 充值
+     * @return BalanceRecharge|\yuncms\db\ActiveRecord
+     */
+    public static function recharge()
+    {
+        return BalanceRecharge::create([
+
+        ]);
+    }
+
+    /**
+     * 余额结算
+     * @return BalanceSettlement|\yuncms\db\ActiveRecord
+     */
+    public static function settlement()
+    {
+        return BalanceSettlement::create([]);
     }
 
     /**
      * 转账
-     * @param integer $fromUserId
-     * @param integer $toUserId
+     * @param User $fromUser
+     * @param User $toUser
      * @param float $amount 钱数
      * @param string $description
      * @return \yuncms\db\ActiveRecord|bool
      * @throws Exception
-     * @throws NotFoundHttpException
+     * @throws \yii\db\Exception
      */
-    public function transfer($fromUserId, $toUserId, $amount, $description = '')
+    public static function transfer($fromUser, $toUser, $amount, $description = '')
     {
-        $userBalanceTransactionId = $this->decrease($fromUserId, $amount, BalanceTransaction::TYPE_TRANSFER, $description, null);
+        $userBalanceTransactionId = static::decrease($fromUser, $amount, BalanceTransaction::TYPE_TRANSFER, $description, null);
         if ($userBalanceTransactionId) {
-            $recipientBalanceTransactionId = $this->increase($toUserId, $amount, BalanceTransaction::TYPE_TRANSFER, $description, null);
+            $recipientBalanceTransactionId = static::increase($toUser, $amount, BalanceTransaction::TYPE_TRANSFER, $description, null);
             return BalanceTransfer::create([
-                'user_id' => $fromUserId,
-                'recipient_id' => $toUserId,
+                'user_id' => $fromUser,
+                'recipient_id' => $toUser,
                 'amount' => $amount,
                 'description' => $description,
                 'user_balance_transaction_id' => $userBalanceTransactionId,
@@ -105,20 +131,5 @@ class BalanceManager extends Component
             ]);
         }
         return false;
-    }
-
-    /**
-     * 获取用户钱包
-     * @param integer $userId
-     * @return User
-     * @throws NotFoundHttpException
-     */
-    protected function fetchUserId($userId)
-    {
-        if (($user = User::findOne(['id' => $userId])) != null) {
-            return $user;
-        } else {
-            throw new NotFoundHttpException ('User not found.');
-        }
     }
 }

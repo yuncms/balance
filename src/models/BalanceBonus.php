@@ -3,8 +3,8 @@
 namespace yuncms\balance\models;
 
 use Yii;
-use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
+use yuncms\db\ActiveRecord;
 use yuncms\helpers\ArrayHelper;
 use yuncms\user\models\User;
 
@@ -127,12 +127,13 @@ class BalanceBonus extends ActiveRecord
 
     /**
      * @inheritdoc
+     * @throws \yii\db\Exception
      */
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
         if ($insert
-            && ($transactionId = Yii::$app->balanceManager->increase($this->user_id, $this->amount, BalanceTransaction::TYPE_RECEIPTS_EXTRA, $this->description, $this->id)) != false) {//保存后开始赠送余额
+            && ($transactionId = Balance::increase($this->user, $this->amount, BalanceTransaction::TYPE_RECEIPTS_EXTRA, $this->description, $this->id)) != false) {//保存后开始赠送余额
             $this->updateAttributes(['paid' => true, 'time_paid' => time(), 'balance_transaction_id' => $transactionId]);
         }
     }

@@ -3,9 +3,9 @@
 namespace yuncms\balance\models;
 
 use Yii;
-use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
+use yuncms\db\ActiveRecord;
 use yuncms\user\models\User;
 
 /**
