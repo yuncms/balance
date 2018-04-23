@@ -10,7 +10,7 @@ use yuncms\user\models\User;
 use yuncms\validators\JsonValidator;
 
 /**
- * This is the model class for table "{{%balance_settle_account}}".
+ * This is the model class for table "{{%user_settle_account}}".
  *
  * @property integer $id
  * @property integer $user_id
@@ -26,7 +26,7 @@ class UserSettleAccount extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%balance_settle_account}}';
+        return '{{%user_settle_account}}';
     }
 
     /**

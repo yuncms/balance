@@ -13,7 +13,7 @@ namespace yuncms\balance\rest\models;
  * @author Tongle Xu <xutongle@gmail.com>
  * @since 3.0
  */
-class SettleAccount extends \yuncms\balance\models\SettleAccount
+class UserSettleAccount extends \yuncms\balance\models\UserSettleAccount
 {
 
 }

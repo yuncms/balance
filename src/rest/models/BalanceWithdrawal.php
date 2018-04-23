@@ -9,7 +9,6 @@ namespace yuncms\balance\rest\models;
 
 use yii\base\Model;
 use yii\behaviors\BlameableBehavior;
-use yuncms\db\ActiveRecord;
 
 /**
  * 余额提现接口
@@ -17,7 +16,7 @@ use yuncms\db\ActiveRecord;
  * @author Tongle Xu <xutongle@gmail.com>
  * @since 3.0
  */
-class Withdrawal extends \yuncms\balance\models\Withdrawal
+class BalanceWithdrawal extends \yuncms\balance\models\BalanceWithdrawal
 {
     /**
      * 定义行为
