@@ -58,21 +58,4 @@ class BalanceController extends Controller
         }
         return $model;
     }
-
-    /**
-     * 余额转账
-     * @throws \yii\base\InvalidConfigException
-     * @throws ServerErrorHttpException
-     */
-    public function actionTransfer()
-    {
-        $model = new TransactionBalanceTransfer();
-        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
-        if (($model->save()) != false) {
-            Yii::$app->getResponse()->setStatusCode(201);
-        } elseif (!$model->hasErrors()) {
-            throw new ServerErrorHttpException('Failed to create the object for unknown reason.');
-        }
-        return $model;
-    }
 }

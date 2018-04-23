@@ -22,7 +22,7 @@ use yuncms\db\ActiveRecord;
  * @property integer $created_at 时间
  *
  * @property User $user
- * @property TransactionRecharge[] $transactionRecharges
+ * @property BalanceRecharge[] $transactionRecharges
  *
  * @property-read boolean $isAuthor 是否是作者
  */

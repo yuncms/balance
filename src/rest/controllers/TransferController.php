@@ -14,7 +14,7 @@ use yuncms\rest\ActiveController;
 use yuncms\balance\rest\models\BalanceTransfer;
 
 /**
- * 清分记录
+ * 余额转账记录
  *
  * @author Tongle Xu <xutongle@gmail.com>
  * @since 3.0
@@ -58,5 +58,17 @@ class TransferController extends ActiveController
                 ]
             ],
         ]);
+    }
+
+    /**
+     * 发起转账
+     * @return bool|\yuncms\db\ActiveRecord
+     * @throws \Throwable
+     * @throws \yii\db\Exception
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionCreate()
+    {
+        return Yii::$app->balanceManager->transfer(10000000, 1, 1);
     }
 }

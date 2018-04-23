@@ -32,7 +32,7 @@ class m180413_015219_create_balance_transfer_table extends Migration
             'order_no' => $this->string(64),//商户订单号，适配每个渠道对此参数的要求，必须在商户的系统内唯一。
             'user_fee' => $this->decimal(12, 2),//向发起转账的用户额外收取的手续费,且值需小于 amount。
             'user_balance_transaction_id' => $this->unsignedBigInteger(),//转账关联的转出方  balance_transaction 对象的  id 。
-            'recipient_balance_transaction' => $this->unsignedBigInteger(),//转账关联的接收方  balance_transaction 对象的  id 。
+            'recipient_balance_transaction_id' => $this->unsignedBigInteger(),//转账关联的接收方  balance_transaction 对象的  id 。
             'description' => $this->string(60),//附加说明，最多 60 个 Unicode 字符。
             'metadata' => $this->text(),//metadata 参数 数组，一些源数据。
             'created_at' => $this->integer()->notNull()->comment('Created At'),//创建时间

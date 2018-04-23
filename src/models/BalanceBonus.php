@@ -131,19 +131,9 @@ class BalanceBonus extends ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-        if ($insert) {//保存后开始赠送余额
-            $balance = bcadd($this->user->balance, $this->amount);
-            if (($transaction = BalanceTransaction::create([
-                'user_id' => $this->user_id,
-                'type' => BalanceTransaction::TYPE_RECEIPTS_EXTRA,
-                'description' => $this->description,
-                'source' => $this->id,
-                'amount' => $this->amount,
-                'balance' => $balance,
-            ]))) {
-                $this->user->updateAttributes(['balance' => $balance]);
-                $this->updateAttributes(['paid' => true, 'time_paid' => time(), 'balance_transaction_id' => $transaction->id]);
-            }
+        if ($insert
+            && ($transactionId = Yii::$app->balanceManager->increase($this->user_id, $this->amount, BalanceTransaction::TYPE_RECEIPTS_EXTRA, $this->description, $this->id)) != false) {//保存后开始赠送余额
+            $this->updateAttributes(['paid' => true, 'time_paid' => time(), 'balance_transaction_id' => $transactionId]);
         }
     }
 }
