@@ -74,7 +74,7 @@ class Balance extends Model
     }
 
     /**
-     * 送钱
+     * 送钱 配合其他交易使用，单独使用就是直接送
      * @param User $user 用户账户
      * @param float $amount
      * @param string $description
