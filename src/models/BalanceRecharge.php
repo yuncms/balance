@@ -72,29 +72,17 @@ class BalanceRecharge extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
-        $scenarios = parent::scenarios();
-        return ArrayHelper::merge($scenarios, [
-            static::SCENARIO_CREATE => [],
-            static::SCENARIO_UPDATE => [],
-        ]);
-    }
-
-
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
             [['user_id', 'charge_id'], 'required'],
-            [['user_id', 'balance_transaction_id', 'created_at', 'succeeded_at'], 'integer'],
+            [['user_id', 'balance_transaction_id'], 'integer'],
             [['amount', 'user_fee', 'balance_bonus_id'], 'number'],
             [['metadata'], 'string'],
             [['succeeded', 'refunded'], 'string', 'max' => 1],
             [['charge_id'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 255],
+            [['succeeded', 'refunded'], 'boolean'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
             [['balance_transaction_id'], 'exist', 'skipOnError' => true, 'targetClass' => BalanceTransaction::class, 'targetAttribute' => ['balance_transaction_id' => 'id']],
             [['charge_id'], 'exist', 'skipOnError' => true, 'targetClass' => TransactionCharge::class, 'targetAttribute' => ['charge_id' => 'id']],
