@@ -5,6 +5,7 @@ namespace yuncms\balance\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yuncms\db\ActiveRecord;
+use yuncms\transaction\models\TransactionCharge;
 use yuncms\user\models\User;
 
 /**
