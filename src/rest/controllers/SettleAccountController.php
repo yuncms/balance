@@ -10,7 +10,6 @@ namespace yuncms\balance\rest\controllers;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 use yuncms\balance\rest\models\UserSettleAccount;
@@ -104,7 +103,6 @@ class SettleAccountController extends Controller
      * 查看清分账户
      * @param integer $id
      * @return UserSettleAccount
-     * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      */
     public function actionView($id)

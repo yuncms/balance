@@ -24,4 +24,13 @@ class UserSettleAccount extends \yuncms\balance\models\UserSettleAccount
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
+
+    /**
+     * 扩展字段定义
+     * @return array
+     */
+    public function extraFields()
+    {
+        return ['user'];
+    }
 }

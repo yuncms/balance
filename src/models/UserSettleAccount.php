@@ -60,9 +60,17 @@ class UserSettleAccount extends ActiveRecord
             [['user_id', 'channel'], 'required'],
             [['user_id'], 'integer'],
             [['channel'], 'string', 'max' => 64],
+            [['channel'], 'validateChannel'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
             [['recipient'], JsonValidator::class],
         ];
+    }
+
+    public function validateChannel()
+    {
+        if (static::findOne(['user_id' => $this->user_id, 'channel' => $this->channel]) != null) {
+            $this->addError('channel', 'This channel already exists.');
+        }
     }
 
     /**

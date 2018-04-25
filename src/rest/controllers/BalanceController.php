@@ -8,7 +8,6 @@
 namespace yuncms\balance\rest\controllers;
 
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\web\ServerErrorHttpException;
 use yuncms\rest\Controller;
 use yuncms\balance\rest\models\BalanceBonus;

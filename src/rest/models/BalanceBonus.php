@@ -33,4 +33,13 @@ class BalanceBonus extends \yuncms\balance\models\BalanceBonus
     {
         return $this->hasOne(BalanceTransaction::class, ['id' => 'balance_transaction_id']);
     }
+
+    /**
+     * 扩展字段定义
+     * @return array
+     */
+    public function extraFields()
+    {
+        return ['user'];
+    }
 }
