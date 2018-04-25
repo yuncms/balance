@@ -9,6 +9,7 @@ namespace yuncms\balance\rest\models;
 
 use yii\base\Model;
 use yii\behaviors\BlameableBehavior;
+use yuncms\rest\models\User;
 
 /**
  * 余额提现接口
@@ -32,5 +33,13 @@ class BalanceWithdrawal extends \yuncms\balance\models\BalanceWithdrawal
             ],
         ];
         return $behaviors;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 }

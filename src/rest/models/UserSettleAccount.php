@@ -7,6 +7,8 @@
 
 namespace yuncms\balance\rest\models;
 
+use yuncms\rest\models\User;
+
 /**
  * 设置提现渠道
  *
@@ -15,5 +17,11 @@ namespace yuncms\balance\rest\models;
  */
 class UserSettleAccount extends \yuncms\balance\models\UserSettleAccount
 {
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
 }

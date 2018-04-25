@@ -7,6 +7,8 @@
 
 namespace yuncms\balance\rest\models;
 
+use yuncms\rest\models\User;
+
 /**
  * 余额转账
  *
@@ -15,5 +17,11 @@ namespace yuncms\balance\rest\models;
  */
 class BalanceTransfer extends \yuncms\balance\models\BalanceTransfer
 {
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
 }
