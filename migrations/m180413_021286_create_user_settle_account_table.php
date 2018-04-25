@@ -24,9 +24,9 @@ class m180413_021286_create_user_settle_account_table extends Migration
         }
         //用户结算账户表
         $this->createTable($this->tableName, [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey()->unsigned(),
             'user_id' => $this->unsignedInteger()->notNull()->comment('User Id'),
-            'channel' => $this->string(64)->notNull()->comment('Channel Identity'),//提现渠道
+            'channel' => $this->string(64)->notNull()->comment('Channel Identity'),//结算账号渠道名称
             'recipient' => $this->text(),//脱敏的结算账号接收者信息，详情参见请求参数 recipient 部分。
         ], $tableOptions);
 

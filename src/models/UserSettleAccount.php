@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\BlameableBehavior;
 use yuncms\behaviors\JsonBehavior;
+use yuncms\transaction\models\TransactionChannel;
 use yuncms\user\models\User;
 use yuncms\validators\JsonValidator;
 

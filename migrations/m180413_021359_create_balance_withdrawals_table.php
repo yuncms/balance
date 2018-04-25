@@ -29,14 +29,15 @@ class m180413_021359_create_balance_withdrawals_table extends Migration
             'status' => $this->unsignedSmallInteger(1)->defaultValue(0),//提现状态，已申请： created ，处理中： pending ，完成： succeeded ，失败： failed ，取消： canceled 。
             'amount' => $this->decimal(12, 2)->notNull(),//提现扣除的余额
             'channel' => $this->string(64)->notNull(),//提现使用的付款渠道
+            'settle_account_id' => $this->unsignedInteger(),//提现使用的settle_account
             'metadata' => $this->text(),//元数据
             'extra' => $this->text(),//渠道参数
             'created_at' => $this->unixTimestamp()->comment('Created At'),//创建时间
             'canceled_at' => $this->unixTimestamp()->comment('Updated At'),//取消时间
             'succeeded_at' => $this->unixTimestamp()->comment('Updated At'),//成功时间
         ], $tableOptions);
-
         $this->addForeignKey('balance_withdrawals_fk_1', $this->tableName, 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
+        $this->addForeignKey('balance_withdrawals_fk_2', $this->tableName, 'settle_account_id', '{{%user_settle_account}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
     /**
