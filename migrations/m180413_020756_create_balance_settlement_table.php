@@ -26,7 +26,7 @@ class m180413_020756_create_balance_settlement_table extends Migration
         //系统将自动将扣除手续费（user_fee）后的支付金额结算到指定的用户余额账户并生成 balance_settlement 对象。
         //通常使用该对象查询一笔或多笔订单余额结算的状态。注意： 结算的入账状态是系统处理的一个中间状态，一般不需要关心。
         $this->createTable($this->tableName, [
-            'id' => $this->primaryKey(),
+            'id' => $this->bigPrimaryKey(),
             'user_id' => $this->unsignedInteger()->notNull()->comment('User Id'),//结算的  user 对象的  id
             'amount' => $this->decimal(12, 2)->notNull(),//结算金额，包含用户手续费
             'user_fee' => $this->decimal(12, 2)->defaultValue(0),//向结算用户收取的手续费

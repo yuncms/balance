@@ -24,7 +24,7 @@ class m180413_013158_create_balance_transaction_table extends Migration
         }
         //创建余额明细表
         $this->createTable($this->tableName, [
-            'id' => $this->bigPrimaryKey()->unsigned(),
+            'id' => $this->bigPrimaryKey(),
             'user_id' => $this->unsignedInteger()->notNull()->comment('User Id'),
             'amount' => $this->decimal(12, 2)->notNull(),//订单总金额（必须大于 0），单位为对应币种的最小货币单位，人民币为分
             'balance' => $this->decimal(12, 2),//该笔交易发生后，用户的余额。

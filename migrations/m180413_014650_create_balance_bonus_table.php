@@ -24,7 +24,7 @@ class m180413_014650_create_balance_bonus_table extends Migration
         }
         //创建余额赠送
         $this->createTable($this->tableName, [
-            'id' => $this->bigPrimaryKey()->unsigned(),//主ID
+            'id' => $this->bigPrimaryKey(),//主ID
             'paid' => $this->boolean()->defaultValue(false),//是否已经赠送
             'user_id' => $this->unsignedInteger()->notNull()->comment('User Id'),//受赠的  user 对象的  id 。
             'amount' => $this->decimal(12, 2)->notNull(),//受赠金额

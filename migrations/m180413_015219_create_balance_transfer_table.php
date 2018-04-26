@@ -35,7 +35,7 @@ class m180413_015219_create_balance_transfer_table extends Migration
             'recipient_balance_transaction_id' => $this->unsignedBigInteger(),//转账关联的接收方  balance_transaction 对象的  id 。
             'description' => $this->string(60),//附加说明，最多 60 个 Unicode 字符。
             'metadata' => $this->text(),//metadata 参数 数组，一些源数据。
-            'created_at' => $this->integer()->notNull()->comment('Created At'),//创建时间
+            'created_at' => $this->unixTimestamp()->notNull()->comment('Created At'),//创建时间
         ], $tableOptions);
 
         $this->addForeignKey('balance_transfer_fk_1', $this->tableName, 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
