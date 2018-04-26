@@ -36,6 +36,9 @@ class m180413_021359_create_balance_withdrawals_table extends Migration
             'canceled_at' => $this->unixTimestamp()->comment('Updated At'),//取消时间
             'succeeded_at' => $this->unixTimestamp()->comment('Updated At'),//成功时间
         ], $tableOptions);
+
+        //状态加索引
+        $this->createIndex('balance_withdrawals_index_1', $this->tableName, ['status']);
         $this->addForeignKey('balance_withdrawals_fk_1', $this->tableName, 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
         $this->addForeignKey('balance_withdrawals_fk_2', $this->tableName, 'settle_account_id', '{{%user_settle_account}}', 'id', 'CASCADE', 'RESTRICT');
     }
