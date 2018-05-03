@@ -22,9 +22,7 @@ use yuncms\db\ActiveRecord;
  * @property integer $created_at 时间
  *
  * @property User $user
- * @property BalanceRecharge[] $transactionRecharges
- *
- * @property-read boolean $isAuthor 是否是作者
+ * @property BalanceRecharge[] $recharges
  */
 class BalanceTransaction extends ActiveRecord
 {
@@ -110,9 +108,9 @@ class BalanceTransaction extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTransactionRecharges()
+    public function getRecharges()
     {
-        return $this->hasMany(TransactionRecharge::class, ['balance_transaction_id' => 'id']);
+        return $this->hasMany(BalanceRecharge::class, ['balance_transaction_id' => 'id']);
     }
 
     /**

@@ -81,6 +81,39 @@ class BalanceSettlement extends ActiveRecord
     }
 
     /**
+     * 余额结算
+     * @return bool
+     * @throws \yii\db\Exception
+     */
+    public function transfer()
+    {
+        if ($this->isCredited()) {
+            return false;
+        }
+        //开始结算
+        $transaction = BalanceTransaction::getDb()->beginTransaction();//开始事务
+        try {
+            //在用户可用余额里扣钱
+            $amount = bcsub($this->amount, $this->user_fee);
+            $balance = bcsub($this->user->transfer_balance, $amount);
+            //在用户可提现余额里+钱
+            if ($this->user->updateAttributes(['transfer_balance' => $balance])
+                && Balance::increase($this->user, $amount, BalanceTransaction::TYPE_CREDITED, 'Balance Settlement')
+                && $this->updateAttributes(['status' => self::STATUS_SUCCEEDED])) {
+                $transaction->commit();
+                return true;
+            } else {
+                $transaction->rollBack();
+                return false;
+            }
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            Yii::error($e->getMessage(), __METHOD__);
+        }
+        return false;
+    }
+
+    /**
      * @inheritdoc
      */
     public function rules()
@@ -133,5 +166,30 @@ class BalanceSettlement extends ActiveRecord
     public static function find()
     {
         return new BalanceSettlementQuery(get_called_class());
+    }
+
+    /**
+     * 保存后开始结算
+     * @param bool $insert
+     * @param array $changedAttributes
+     * @throws \yii\db\Exception
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if ($insert && $this->status == self::STATUS_CREATED) {//第一次新建的
+            $transaction = BalanceTransaction::getDb()->beginTransaction();//开始事务
+            try {
+                $balance = bcadd($this->user->transfer_balance, bcsub($this->amount, $this->user_fee));
+                if ($this->user->updateAttributes(['transfer_balance' => $balance]) && $this->updateAttributes(['status' => self::STATUS_CREDITED])) {
+                    $transaction->commit();
+                } else {
+                    $transaction->rollBack();
+                }
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                Yii::error($e->getMessage(), __METHOD__);
+            }
+        }
     }
 }
