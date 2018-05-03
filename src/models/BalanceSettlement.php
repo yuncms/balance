@@ -95,11 +95,10 @@ class BalanceSettlement extends ActiveRecord
         try {
             //在用户可用余额里扣钱
             $amount = bcsub($this->amount, $this->user_fee);
-            $balance = bcsub($this->user->transfer_balance, $amount);
             //在用户可提现余额里+钱
-            if ($this->user->updateAttributes(['transfer_balance' => $balance])
+            if ($this->user->decreaseTransferBalance($amount)
                 && Balance::increase($this->user, $amount, BalanceTransaction::TYPE_CREDITED, 'Balance Settlement')
-                && $this->updateAttributes(['status' => self::STATUS_SUCCEEDED])) {
+                && $this->updateAttributes(['status' => self::STATUS_SUCCEEDED, 'succeeded_at' => time()])) {
                 $transaction->commit();
                 return true;
             } else {
@@ -181,7 +180,7 @@ class BalanceSettlement extends ActiveRecord
             $transaction = BalanceTransaction::getDb()->beginTransaction();//开始事务
             try {
                 $balance = bcadd($this->user->transfer_balance, bcsub($this->amount, $this->user_fee));
-                if ($this->user->updateAttributes(['transfer_balance' => $balance]) && $this->updateAttributes(['status' => self::STATUS_CREDITED])) {
+                if ($this->user->updateAttributes(['transfer_balance' => $balance]) && $this->updateAttributes(['status' => self::STATUS_CREDITED, 'credited_at' => time()])) {
                     $transaction->commit();
                 } else {
                     $transaction->rollBack();
