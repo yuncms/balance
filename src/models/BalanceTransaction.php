@@ -40,6 +40,7 @@ class BalanceTransaction extends ActiveRecord
     const TYPE_CREDITED = 'credited';//入账
     const TYPE_CREDITED_REFUND = 'credited_refund';//入账退款
     const TYPE_CREDITED_REFUND_FAILED = 'credited_refund_failed';//入账退款失败
+    const TYPE_REWARD = 'reward';//打赏/收到打赏
 
     /**
      * @inheritdoc
