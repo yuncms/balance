@@ -9,10 +9,10 @@ namespace yuncms\balance\rest\controllers;
 
 use Yii;
 use yii\web\ServerErrorHttpException;
+use yuncms\balance\models\BalanceRecharge;
 use yuncms\rest\Controller;
 use yuncms\balance\rest\models\BalanceBonus;
 use yuncms\balance\rest\models\UserSettleAccount;
-
 
 /**
  * 余额操作控制器
@@ -22,6 +22,23 @@ use yuncms\balance\rest\models\UserSettleAccount;
  */
 class BalanceController extends Controller
 {
+    /**
+     * 余额充值
+     * @return BalanceRecharge
+     * @throws ServerErrorHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function actionRecharge()
+    {
+        $model = new BalanceRecharge();
+        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        if (($model->save()) != false) {
+            Yii::$app->getResponse()->setStatusCode(201);
+        } elseif (!$model->hasErrors()) {
+            throw new ServerErrorHttpException('Failed to create the object for unknown reason.');
+        }
+        return $model;
+    }
 
     /**
      * 提现渠道

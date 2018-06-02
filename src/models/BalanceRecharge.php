@@ -6,13 +6,13 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
 use yuncms\db\ActiveRecord;
-use yuncms\helpers\ArrayHelper;
 use yuncms\transaction\models\TransactionCharge;
 use yuncms\transaction\models\TransactionRefund;
 use yuncms\user\models\User;
 
 /**
  * This is the model class for table "{{%balance_recharges}}".
+ * 余额充值
  *
  * @property integer $id
  * @property integer $user_id
@@ -145,11 +145,11 @@ class BalanceRecharge extends ActiveRecord
 
     /**
      * @inheritdoc
-     * @return BalanceRechargesQuery the active query used by this AR class.
+     * @return BalanceRechargeQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new BalanceRechargesQuery(get_called_class());
+        return new BalanceRechargeQuery(get_called_class());
     }
 
     /**
@@ -160,110 +160,57 @@ class BalanceRecharge extends ActiveRecord
     {
         return $this->user_id == Yii::$app->user->id;
     }
-//    public function afterFind()
-//    {
-//        parent::afterFind();
-//        // ...custom code here...
-//    }
 
     /**
      * @inheritdoc
      */
-//    public function beforeSave($insert)
-//    {
-//        if (!parent::beforeSave($insert)) {
-//            return false;
-//        }
-//
-//        // ...custom code here...
-//        return true;
-//    }
-
-    /**
-     * @inheritdoc
-     */
-//    public function afterSave($insert, $changedAttributes)
-//    {
-//        parent::afterSave($insert, $changedAttributes);
-//        Yii::$app->queue->push(new ScanTextJob([
-//            'modelId' => $this->getPrimaryKey(),
-//            'modelClass' => get_class($this),
-//            'scenario' => $this->isNewRecord ? 'new' : 'edit',
-//            'category'=>'',
-//        ]));
-//        // ...custom code here...
-//    }
-
-    /**
-     * @inheritdoc
-     */
-//    public function beforeDelete()
-//    {
-//        if (!parent::beforeDelete()) {
-//            return false;
-//        }
-//        // ...custom code here...
-//        return true;
-//    }
-
-    /**
-     * @inheritdoc
-     */
-//    public function afterDelete()
-//    {
-//        parent::afterDelete();
-//
-//        // ...custom code here...
-//    }
-
-    /**
-     * 生成一个独一无二的标识
-     */
-    protected function generateSlug()
+    public function afterSave($insert, $changedAttributes)
     {
-        $result = sprintf("%u", crc32($this->id));
-        $slug = '';
-        while ($result > 0) {
-            $s = $result % 62;
-            if ($s > 35) {
-                $s = chr($s + 61);
-            } elseif ($s > 9 && $s <= 35) {
-                $s = chr($s + 55);
+        parent::afterSave($insert, $changedAttributes);
+        if ($insert) {
+            $charge = new TransactionCharge([
+                'order_no' => $this->id,
+                'order_class' => self::class,
+                'amount' => $this->amount,
+                'user_id' => $this->user_id,
+                'currency' => 'CNY',
+                'subject' => '余额充值',
+                'body' => '余额充值' . $this->amount . '元',
+            ]);
+            if ($charge->save()) {
+                $this->link('charge', $charge);
             }
-            $slug .= $s;
-            $result = floor($result / 62);
         }
-        //return date('YmdHis') . $slug;
-        return $slug;
     }
 
     /**
-     * 获取模型总数
-     * @param null|int $duration 缓存时间
-     * @return int get the model rows
+     * 订单支付回调
+     * @param string $orderNo
+     * @param string $chargeId
+     * @param array $params
+     * @return bool
      */
-    public static function getTotal($duration = null)
+    public static function setPaid($orderNo, $chargeId, $params)
     {
-        $total = static::getDb()->cache(function (Connection $db) {
-            return static::find()->count();
-        }, $duration, new ChainedDependency([
-            'dependencies' => new DbDependency(['db' => self::getDb(), 'sql' => 'SELECT MAX(id) FROM ' . self::tableName()])
-        ]));
-        return $total;
+        if (($model = static::findOne(['id' => $orderNo, 'charge_id' => $chargeId])) != null) {
+            if ($model->succeeded) {
+                return true;
+            }
+            return $model->updateAttributes(['succeeded'=>true,'succeeded_at'=>time()]);
+        } else {
+            return false;
+        }
     }
 
     /**
-     * 获取模型今日新增总数
-     * @param null|int $duration 缓存时间
-     * @return int
+     * 设置订单退款成功
+     * @param string $orderNo 订单号
+     * @param string $chargeId 支付号
+     * @param array $params 附加参数
+     * @return bool
      */
-    public static function getTodayTotal($duration = null)
+    public static function setRefunded($orderNo, $chargeId, $params)
     {
-        $total = static::getDb()->cache(function (Connection $db) {
-            return static::find()->where(['between', 'created_at', DateHelper::todayFirstSecond(), DateHelper::todayLastSecond()])->count();
-        }, $duration, new ChainedDependency([
-            'dependencies' => new DbDependency(['db' => self::getDb(), 'sql' => 'SELECT MAX(created_at) FROM ' . self::tableName()])
-        ]));
-        return $total;
+        return false;
     }
 }
