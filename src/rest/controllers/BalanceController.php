@@ -9,7 +9,7 @@ namespace yuncms\balance\rest\controllers;
 
 use Yii;
 use yii\web\ServerErrorHttpException;
-use yuncms\balance\models\BalanceRecharge;
+use yuncms\balance\rest\models\BalanceRecharge;
 use yuncms\rest\Controller;
 use yuncms\balance\rest\models\BalanceBonus;
 use yuncms\balance\rest\models\UserSettleAccount;
