@@ -9,6 +9,7 @@ use yuncms\db\ActiveRecord;
 use yuncms\transaction\models\TransactionCharge;
 use yuncms\transaction\models\TransactionRefund;
 use yuncms\user\models\User;
+use yuncms\transaction\contracts\OrderInterface;
 
 /**
  * This is the model class for table "{{%balance_recharges}}".
@@ -33,7 +34,7 @@ use yuncms\user\models\User;
  * @property BalanceTransaction $balanceTransaction 钱包明细对象
  * @property TransactionCharge $charge 支付对象
  */
-class BalanceRecharge extends ActiveRecord implements \yuncms\transaction\contracts\OrderInterface
+class BalanceRecharge extends ActiveRecord implements OrderInterface
 {
 
     //场景定义
