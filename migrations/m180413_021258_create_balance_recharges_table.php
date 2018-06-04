@@ -30,7 +30,7 @@ class m180413_021258_create_balance_recharges_table extends Migration
             'refunded' => $this->boolean()->defaultValue(false),//是否退款
             'amount' => $this->decimal(12, 2)->defaultValue(0),//到账金额
             'user_fee' => $this->decimal(12, 2)->defaultValue(0),//用户手续费
-            'charge_id' => $this->string(50)->notNull(),
+            'charge_id' => $this->string(50),
             'balance_bonus_id' => $this->decimal(12, 2)->defaultValue(0),//充值赠送的余额，不可和  user_fee 同时传，默认 0。
             'balance_transaction_id' => $this->unsignedBigInteger(),//关联的余额明细表ID
             'description' => $this->string(),//附加说明，最多 255 个 Unicode 字符。
