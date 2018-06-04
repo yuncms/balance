@@ -200,8 +200,8 @@ class BalanceRecharge extends ActiveRecord
             if ($model->succeeded) {
                 return true;
             }
-            if (Balance::increase($model->user, $model->amount, BalanceTransaction::TYPE_RECHARGE, 'recharge')) {
-                return $model->updateAttributes(['succeeded' => true, 'succeeded_at' => time()]);
+            if (($balanceTransactionId = Balance::increase($model->user, $model->amount, BalanceTransaction::TYPE_RECHARGE, 'recharge')) != false) {
+                return $model->updateAttributes(['succeeded' => true, 'succeeded_at' => time(), 'balance_transaction_id' => $balanceTransactionId]);
             }
             return false;
         } else {
