@@ -84,7 +84,7 @@ class BalanceRecharge extends ActiveRecord
             [['charge_id'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 255],
             [['succeeded', 'refunded'], 'boolean'],
-            ['succeeded','default','value' => false],
+            ['succeeded', 'default', 'value' => false],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
             [['balance_transaction_id'], 'exist', 'skipOnError' => true, 'targetClass' => BalanceTransaction::class, 'targetAttribute' => ['balance_transaction_id' => 'id']],
             [['charge_id'], 'exist', 'skipOnError' => true, 'targetClass' => TransactionCharge::class, 'targetAttribute' => ['charge_id' => 'id']],
@@ -192,6 +192,7 @@ class BalanceRecharge extends ActiveRecord
      * @param string $chargeId
      * @param array $params
      * @return bool
+     * @throws \yii\db\Exception
      */
     public static function setPaid($orderNo, $chargeId, $params)
     {
@@ -199,7 +200,10 @@ class BalanceRecharge extends ActiveRecord
             if ($model->succeeded) {
                 return true;
             }
-            return $model->updateAttributes(['succeeded' => true, 'succeeded_at' => time()]);
+            if (Balance::increase($model->user, $model->amount, BalanceTransaction::TYPE_RECHARGE, 'recharge')) {
+                return $model->updateAttributes(['succeeded' => true, 'succeeded_at' => time()]);
+            }
+            return false;
         } else {
             return false;
         }
