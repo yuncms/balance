@@ -33,7 +33,7 @@ use yuncms\user\models\User;
  * @property BalanceTransaction $balanceTransaction 钱包明细对象
  * @property TransactionCharge $charge 支付对象
  */
-class BalanceRecharge extends ActiveRecord
+class BalanceRecharge extends ActiveRecord implements \yuncms\transaction\contracts\OrderInterface
 {
 
     //场景定义
