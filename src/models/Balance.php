@@ -32,7 +32,7 @@ class Balance extends Model
      */
     public static function increase($user, $amount, $action, $description = '', $source = null)
     {
-        $balance = bcadd($user->balance, $amount);
+        $balance = bcadd($user->balance, $amount, 2);
         if ($balance < 0) {//计算后如果余额小于0，那么结果不合法。
             return false;
         }
@@ -83,33 +83,6 @@ class Balance extends Model
     public static function bonus($user, $amount, $description)
     {
         return BalanceBonus::create(['user_id' => $user->id, 'amount' => $amount, 'description' => $description]);
-    }
-
-    /**
-     * 充值
-     * @param User $user
-     * @return BalanceRecharge|\yuncms\db\ActiveRecord
-     */
-    public static function recharge($user, $amount)
-    {
-        return BalanceRecharge::create([
-            'user_id' => $user->id,
-            'amount' => $amount,
-            'user_fee' => $user_fee,
-            'balance_bonus' => balance_bonus,
-            'balance_transaction_id' => '',
-            'description' => '',
-        ]);
-    }
-
-    /**
-     * 余额结算
-     * @param User $user
-     * @return BalanceSettlement|\yuncms\db\ActiveRecord
-     */
-    public static function settlement($user)
-    {
-        return BalanceSettlement::create([]);
     }
 
     /**
