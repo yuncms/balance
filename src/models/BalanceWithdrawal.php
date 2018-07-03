@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yuncms\behaviors\JsonBehavior;
+use yuncms\sms\jobs\NoticeJob;
 use yuncms\user\models\User;
 use yuncms\validators\JsonValidator;
 
@@ -222,6 +223,12 @@ class BalanceWithdrawal extends ActiveRecord
                 'balance' => $balance,
             ]))) {
                 $this->user->updateAttributes(['balance' => $balance]);
+
+                Yii::$app->queue->push(new NoticeJob([
+                    'mobile' => $this->user->mobile,
+                    'template' => 259720,
+                    'data' => [$this->amount],
+                ]));
             }
         }
 
