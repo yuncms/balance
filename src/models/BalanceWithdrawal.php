@@ -226,7 +226,7 @@ class BalanceWithdrawal extends ActiveRecord
 
                 Yii::$app->queue->push(new NoticeJob([
                     'mobile' => $this->user->mobile,
-                    'template' => isset(Yii::$app->params['sms.balance.withdrawal.created']) ?:259720,
+                    'template' => Yii::$app->params['sms.balance.withdrawal.created'] ?? 259720,
                     'data' => [$this->amount],
                 ]));
             }
