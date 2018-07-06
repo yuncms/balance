@@ -4,9 +4,11 @@ namespace yuncms\balance\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yuncms\behaviors\JsonBehavior;
 use yuncms\db\ActiveRecord;
 use yuncms\transaction\models\TransactionCharge;
 use yuncms\user\models\User;
+use yuncms\validators\JsonValidator;
 
 /**
  * This is the model class for table "{{%balance_settlement}}".
@@ -58,6 +60,10 @@ class BalanceSettlement extends ActiveRecord
             'attributes' => [
                 ActiveRecord::EVENT_BEFORE_INSERT => ['created_at']
             ],
+        ];
+        $behaviors['configuration'] = [
+            'class' => JsonBehavior::class,
+            'attributes' => ['data'],
         ];
         return $behaviors;
     }
@@ -127,6 +133,8 @@ class BalanceSettlement extends ActiveRecord
             [['failure_msg'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
             [['charge_id'], 'exist', 'skipOnError' => true, 'targetClass' => TransactionCharge::class, 'targetAttribute' => ['charge_id' => 'id']],
+
+            [['data'], JsonValidator::class],
         ];
     }
 

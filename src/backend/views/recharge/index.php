@@ -24,7 +24,7 @@ $this->registerJs("jQuery(\"#batch_deletion\").on(\"click\", function () {
     <div class="row">
         <div class="col-lg-12 balance-recharge-index">
             <?= Alert::widget() ?>
-            <?php Pjax::begin(); ?>                
+            <?php Pjax::begin(); ?>
             <?php Box::begin([
                 //'noPadding' => true,
                 'header' => Html::encode($this->title),
@@ -65,18 +65,18 @@ $this->registerJs("jQuery(\"#batch_deletion\").on(\"click\", function () {
                     //['class' => 'yii\grid\SerialColumn'],
                     'id',
                     'user_id',
-                    'succeeded',
-                    'refunded',
+                    'succeeded:boolean',
+                    'refunded:boolean',
                     'amount',
-                    // 'channel',
+                     'channel',
                     // 'user_fee',
-                    // 'charge_id',
-                    // 'balance_bonus_id',
-                    // 'balance_transaction_id',
-                    // 'description',
+                     'charge_id',
+                     'balance_bonus_id',
+                     'balance_transaction_id',
+                     'description',
                     // 'metadata:ntext',
-                    // 'created_at',
-                    // 'succeeded_at',
+                     'created_at:datetime',
+                     'succeeded_at:datetime',
                     [
                         'class' => 'yuncms\grid\ActionColumn',
                         'template' => '{view} {update} {delete}',
