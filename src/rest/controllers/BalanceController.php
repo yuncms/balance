@@ -65,6 +65,7 @@ class BalanceController extends Controller
      */
     public function actionBonus()
     {
+        return Yii::$app->getResponse()->setStatusCode(201);
         $model = new BalanceBonus();
         $model->load(Yii::$app->getRequest()->getBodyParams(), '');
         if (($model->save()) != false) {
