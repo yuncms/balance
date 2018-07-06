@@ -149,6 +149,12 @@ class BalanceWithdrawal extends ActiveRecord
         $this->trigger(self::BEFORE_SUCCEEDED);
         $succeeded = (bool)$this->updateAttributes(['status' => static::STATUS_SUCCEEDED, 'succeeded_at' => time()]);
         $this->trigger(self::AFTER_SUCCEEDED);
+
+        Yii::$app->queue->push(new NoticeJob([
+            'mobile' => $this->user->mobile,
+            'template' => Yii::$app->params['sms.balance.withdrawal.succeeded'] ?? 259720,
+            'data' => [$this->amount],
+        ]));
         return $succeeded;
     }
 
@@ -171,6 +177,11 @@ class BalanceWithdrawal extends ActiveRecord
                 'balance' => $balance,
             ]))) {
                 $this->user->updateAttributes(['balance' => $balance]);
+                Yii::$app->queue->push(new NoticeJob([
+                    'mobile' => $this->user->mobile,
+                    'template' => Yii::$app->params['sms.balance.withdrawal.failed'] ?? 259720,
+                    'data' => [$this->amount],
+                ]));
             }
         }
         $this->trigger(self::AFTER_FAILED);
@@ -196,6 +207,12 @@ class BalanceWithdrawal extends ActiveRecord
                 'balance' => $balance,
             ]))) {
                 $this->user->updateAttributes(['balance' => $balance]);
+
+                Yii::$app->queue->push(new NoticeJob([
+                    'mobile' => $this->user->mobile,
+                    'template' => Yii::$app->params['sms.balance.withdrawal.canceled'] ?? 259720,
+                    'data' => [$this->amount],
+                ]));
             }
         }
         $this->trigger(self::AFTER_CANCELED);
