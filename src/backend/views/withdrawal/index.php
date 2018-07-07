@@ -103,7 +103,7 @@ $this->registerJs("jQuery(\"#batch_deletion\").on(\"click\", function () {
                     ],
                     [
                         'class' => 'yuncms\grid\ActionColumn',
-                        'template' => '{view} {update} {delete}',
+                        'template' => '{view} {update}',
                     ],
                 ],
             ]); ?>

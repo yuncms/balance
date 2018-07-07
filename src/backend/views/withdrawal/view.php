@@ -28,21 +28,43 @@ $this->params['breadcrumbs'][] = $this->title;
                             'url' => ['index'],
                         ],
                         [
-                            'label' => Yii::t('yuncms/balance', 'Create Transaction Withdrawal'),
-                            'url' => ['create'],
-                        ],
-                        [
                             'label' => Yii::t('yuncms/balance', 'Update Transaction Withdrawal'),
                             'url' => ['update', 'id' => $model->id],
                             'options' => ['class' => 'btn btn-primary btn-sm']
                         ],
                         [
-                            'label' => Yii::t('yuncms/balance', 'Delete Transaction Withdrawal'),
-                            'url' => ['delete', 'id' => $model->id],
+                            'label' => Yii::t('yuncms/balance', 'Create Transaction Withdrawal'),
+                            'url' => ['set-succeeded'],
+                        ],
+                        [
+                            'label' => Yii::t('yuncms/balance', 'Set Succeeded'),
+                            'url' => ['set-succeeded', 'id' => $model->id],
                             'options' => [
                                 'class' => 'btn btn-danger btn-sm',
                                 'data' => [
-                                    'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                                    'confirm' => Yii::t('app', 'Are you sure you want to Set Succeeded this item?'),
+                                    'method' => 'post',
+                                ],
+                            ]
+                        ],
+                        [
+                            'label' => Yii::t('yuncms/balance', 'Set Canceled'),
+                            'url' => ['set-canceled', 'id' => $model->id],
+                            'options' => [
+                                'class' => 'btn btn-danger btn-sm',
+                                'data' => [
+                                    'confirm' => Yii::t('app', 'Are you sure you want to Set Canceled this item?'),
+                                    'method' => 'post',
+                                ],
+                            ]
+                        ],
+                        [
+                            'label' => Yii::t('yuncms/balance', 'Set Failed'),
+                            'url' => ['set-failed', 'id' => $model->id],
+                            'options' => [
+                                'class' => 'btn btn-danger btn-sm',
+                                'data' => [
+                                    'confirm' => Yii::t('app', 'Are you sure you want to Set Failed this item?'),
                                     'method' => 'post',
                                 ],
                             ]
