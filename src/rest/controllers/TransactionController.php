@@ -9,8 +9,7 @@ namespace yuncms\balance\rest\controllers;
 
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\rest\IndexAction;
-use yuncms\rest\ActiveController;
+use yuncms\rest\Controller;
 use yuncms\balance\rest\models\BalanceTransaction;
 
 /**
@@ -19,42 +18,37 @@ use yuncms\balance\rest\models\BalanceTransaction;
  * @author Tongle Xu <xutongle@gmail.com>
  * @since 3.0
  */
-class TransactionController extends ActiveController
+class TransactionController extends Controller
 {
-    public $modelClass = BalanceTransaction::class;
-
     /**
-     * 不允许新建修改和删除
-     * @return array
-     */
-    public function actions()
-    {
-        $actions = parent::actions();
-        unset($actions['create'], $actions['update'], $actions['delete']);
-        return $actions;
-    }
-
-    /**
-     * Prepares the data provider that should return the requested collection of the models.
-     *
-     * @param IndexAction $action
-     * @param mixed $filter
-     * @return ActiveDataProvider
+     * @param string $month
+     * @return object|ActiveDataProvider
      * @throws \yii\base\InvalidConfigException
      */
-    public function prepareDataProvider(IndexAction $action, $filter)
+    public function actionIndex($month = null)
     {
-        $query = BalanceTransaction::find()->where(['user_id' => Yii::$app->user->getId()]);
-        if (!empty($filter)) {
-            $query->andWhere($filter);
+        $query = BalanceTransaction::find()->where(['user_id' => Yii::$app->user->id]);
+        if ($month != null) {
+            $query->andWhere(["FROM_UNIXTIME(created_at,'%Y-%m')" => $month]);
+        } else {
+            $query->andWhere(["FROM_UNIXTIME(created_at,'%Y-%m')" => date('Y-m')]);
+        }
+
+        $requestParams = Yii::$app->getRequest()->getBodyParams();
+        if (empty($requestParams)) {
+            $requestParams = Yii::$app->getRequest()->getQueryParams();
         }
         return Yii::createObject([
             'class' => ActiveDataProvider::class,
             'query' => $query,
+            'pagination' => [
+                'params' => $requestParams
+            ],
             'sort' => [
+                'params' => $requestParams,
                 'defaultOrder' => [
                     'created_at' => SORT_DESC,
-                    'id' => SORT_ASC,
+                    'id' => SORT_DESC,
                 ]
             ],
         ]);
